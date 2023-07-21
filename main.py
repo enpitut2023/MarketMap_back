@@ -48,9 +48,8 @@ def map(param: int = Query(None)):
         # y = data[i][3]
         # base.paste(logo_resized, (x, y), logo_resized)
     
-    if param is not None:
-        x = data[param][3]
-        y = data[param][4]
+    x = data[param][3]
+    y = data[param][4]
     base.paste(logo_resized, (x, y), logo_resized)
 
     base.save(out_path)

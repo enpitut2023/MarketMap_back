@@ -2,6 +2,7 @@ from fastapi import FastAPI, Query
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
+from typing import List
 
 app = FastAPI()
 
@@ -18,8 +19,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/image/pinned")
-def map(param: int = Query(None)):
+@app.post("/image/pinned")
+def map(param: List[int]):
     Image.open('map_master.png').convert('RGB').save('map_master.jpeg')
     base_path = 'map_master.jpeg' # ベース画像
     logo_path = 'pin2.png' # 重ねる透過画像
@@ -41,16 +42,10 @@ def map(param: int = Query(None)):
             [4, "魚", "鮭", 826, 24],
             ]
 
-    n = 4 #表示件数
-
-    # for i in range(n):
-        # x = data[i][2]
-        # y = data[i][3]
-        # base.paste(logo_resized, (x, y), logo_resized)
-    
-    x = data[param][3]
-    y = data[param][4]
-    base.paste(logo_resized, (x, y), logo_resized)
+    for i in param:
+        x = data[i][3]
+        y = data[i][4]
+        base.paste(logo_resized, (x, y), logo_resized)
 
     base.save(out_path)
     

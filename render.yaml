@@ -1,9 +1,0 @@
-services:
-  # A Docker web service
-  - type: web
-    name: market-map
-    runtime: python
-    plan: free
-    autoDeploy: false
-    buildCommand: './render-build.sh'
-    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT

@@ -1,9 +1,8 @@
 from fastapi import FastAPI, Query
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 from typing import List
-
 app = FastAPI()
 
 origins = [
@@ -29,6 +28,9 @@ def map(param: List[int]):
     base = Image.open(base_path)
     logo = Image.open(logo_path)
 
+    #キャプション用の設定
+    font = ImageFont.truetype('ヒラギノ丸ゴ ProN W4.ttc', 30)
+
     #base_w, base_h = base.size =>1920, 1292
     logo_w, logo_h  = logo.size
 
@@ -46,6 +48,10 @@ def map(param: List[int]):
         x = data[i][3]
         y = data[i][4]
         base.paste(logo_resized, (x, y), logo_resized)
+        im = Image.new("RGB", (60, 30), (255, 255, 255))
+        draw = ImageDraw.Draw(im)
+        draw.text((0, 0), data[i][2], 'black', font=font)
+        base.paste(im, (x+50, y+110))
 
     base.save(out_path)
     

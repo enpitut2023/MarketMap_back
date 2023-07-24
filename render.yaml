@@ -4,6 +4,6 @@ services:
     name: market-map
     runtime: python
     plan: free
-    autoDeploy: true
+    autoDeploy: false
     buildCommand: './render-build.sh'
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT

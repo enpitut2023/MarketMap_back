@@ -43,8 +43,8 @@ def map(param: List[int]):
             ]
 
     for i in param:
-        x = data[i][3]
-        y = data[i][4]
+        x = data[i][3] -20
+        y = data[i][4] +5
         base.paste(logo_resized, (x, y), logo_resized)
 
     base.save(out_path)

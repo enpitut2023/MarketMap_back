@@ -57,12 +57,12 @@ def map(param: List[int]):
             ]
 
     for i in param:
-        x = data[i][3] -20
-        y = data[i][4] +5
+        x = data[i-1][3] -20
+        y = data[i-1][4] +5
         base.paste(logo_resized, (x, y), logo_resized)
         im = Image.new("RGB", (60, 30), (255, 255, 255))
         draw = ImageDraw.Draw(im)
-        draw.text((0, 0), data[i][2], 'black', font=font)
+        draw.text((0, 0), data[i-1][2], 'black', font=font)
         base.paste(im, (x+50, y+110))
 
     base.save(out_path)

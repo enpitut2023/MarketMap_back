@@ -29,7 +29,7 @@ def map(param: List[int]):
     logo = Image.open(logo_path)
 
     #キャプション用の設定
-    font = ImageFont.truetype('ヒラギノ丸ゴ ProN W4.ttc', 30)
+    font = ImageFont.truetype('wqy-microhei.ttc', 30)
 
     #base_w, base_h = base.size =>1920, 1292
     logo_w, logo_h  = logo.size

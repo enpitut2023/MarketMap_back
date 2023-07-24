@@ -3,6 +3,17 @@ from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image, ImageDraw, ImageFont
 from typing import List
+import os
+import urllib.request
+
+os.makedirs(".fonts", exist_ok = True)
+
+print("ダウンロード中です")
+
+urllib.request.urlretrieve("https://github.com/evosystem-jp/heroku-buildpack-cjk-font/raw/master/fonts/wqy-microhei.ttc", ".fonts/wqy-microhei.ttc")
+
+print("ダウンロードが完了しました。")
+
 app = FastAPI()
 
 origins = [

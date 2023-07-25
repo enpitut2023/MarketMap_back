@@ -5,6 +5,7 @@ from PIL import Image, ImageDraw, ImageFont
 from typing import List
 import os
 import urllib.request
+import pandas as pd
 
 os.makedirs(".fonts", exist_ok = True)
 
@@ -50,22 +51,46 @@ def map(param: List[int]):
     logo_resized = logo.resize((int(logo_w * scale), int(logo_h * scale)))
     
 
-    data = [[1, "調味料", "醤油", 530, 276],
-            [2, "調味料", "マヨネーズ", 900, 87],
-            [3, "肉", "牛肉", 1235, 10], #通し番号,カテゴリ名,商品名,x座標,y座標
-            [4, "魚", "鮭", 826, 24],
-            ]
+    data = pd.read_csv("./data.csv")
+    # 任意のフォントファイルのパスとフォントサイズを指定
+    font_path = "path/to/font.ttf"
+    font_size = 14
+
+    # ベース画像を元にしたコピーを作成
+    base_with_caption = base.copy()
+    draw = ImageDraw.Draw(base_with_caption)
 
     for i in param:
-        x = data[i-1][3] -20
-        y = data[i-1][4] +5
-        base.paste(logo_resized, (x, y), logo_resized)
-        im = Image.new("RGB", (60, 30), (255, 255, 255))
-        draw = ImageDraw.Draw(im)
-        draw.text((0, 0), data[i-1][2], 'black', font=font)
-        base.paste(im, (x+50, y+110))
+        item = data[data['通し番号'] == i]
+        x_list = item["x座標"].tolist()  # x座標をリストに変換
+        y_list = item["y座標"].tolist()  # y座標をリストに変換
+        caption_list = item["商品名"].tolist() #商品名をリストに変換
+        
+        """for x, y in zip(x_list, y_list):
+            # キャプションを取得する
+            caption = item["商品名"].iloc[0]  # 商品名は同じ通し番号内で共通なので、先頭の要素を取得
 
-    base.save(out_path)
+            # キャプションの表示位置
+            caption_x = x + 50
+            caption_y = y + 110
+
+            # キャプションのフォントを指定
+            font = ImageFont.truetype(font_path, font_size)
+
+            # キャプションを画像に描画
+            draw.text((caption_x, caption_y), caption, fill=(0, 0, 0), font=font)  # fillで文字の色を指定
+            
+            base_with_caption.save(out_path)"""
+
+        for x, y in zip(x_list, y_list):
+            base.paste(logo_resized, (x-100, y), logo_resized)
+            base.save(out_path)
+        """im = Image.new("RGB", (60, 30), (255, 255, 255))
+        draw = ImageDraw.Draw(im)
+        item2 = item["商品名"]
+        draw.text((0, 0), item2, 'black', font=font)
+        base.paste(im, (x+50, y+110))"""
+            
     
     return FileResponse(out_path, media_type="image/png")
 

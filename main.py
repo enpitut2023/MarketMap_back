@@ -88,26 +88,16 @@ def map(param: List[int]):
         x_list = item["x座標"].tolist()  # x座標をリストに変換
         y_list = item["y座標"].tolist()  # y座標をリストに変換
         caption_list = item["商品名"].tolist() #商品名をリストに変換
-        
-        """for x, y in zip(x_list, y_list):
-            # キャプションを取得する
-            caption = item["商品名"].iloc[0]  # 商品名は同じ通し番号内で共通なので、先頭の要素を取得
-
-            # キャプションの表示位置
-            caption_x = x + 50
-            caption_y = y + 110
-
-            # キャプションのフォントを指定
-            font = ImageFont.truetype(font_path, font_size)
-
-            # キャプションを画像に描画
-            draw.text((caption_x, caption_y), caption, fill=(0, 0, 0), font=font)  # fillで文字の色を指定
+    
+        for x, y, caption in zip(x_list, y_list, caption_list):
+            base.paste(logo_resized, (x, y-80), logo_resized)
             
-            base_with_caption.save(out_path)"""
-
-        for x, y in zip(x_list, y_list):
-            base.paste(logo_resized, (x-100, y), logo_resized)
+            im = Image.new("RGB", (60, 30), (255, 255, 255))
+            draw = ImageDraw.Draw(im)
+            draw.text((0, 0), caption, 'black', font=font)
+            base.paste(im, (x, y+25))
             base.save(out_path)
+<<<<<<< Updated upstream
         """im = Image.new("RGB", (60, 30), (255, 255, 255))
         draw = ImageDraw.Draw(im)
         item2 = item["商品名"]
@@ -119,6 +109,10 @@ def map(param: List[int]):
 
     response =  FileResponse(out_path, media_type = "image/png")
     return response
+=======
+    
+    return FileResponse(out_path, media_type="image/png")
+>>>>>>> Stashed changes
 
 @app.get("/image/white")
 def whitemap():

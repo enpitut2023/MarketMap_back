@@ -37,7 +37,7 @@ def map(param: List[int]):
     Image.open('map_master.png').convert('RGB').save('map_master.jpeg')
     base_path = 'map_master.jpeg' # ベース画像
     if(len(param) == 0):
-        FileResponse(base_path, media_type = "image/png")
+        return FileResponse(base_path, media_type = "image/png")
     logo_path = 'pin2.png' # 重ねる透過画像
     unique_id = str(uuid.uuid1())
     image_dir = "images/"

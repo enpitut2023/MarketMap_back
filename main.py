@@ -18,7 +18,7 @@ app = FastAPI()
 
 origins = [
     "http://localhost:3000",
-    "https://main--marvelous-frangipane-e310c5.netlify.app",
+    "https://market-map.netlify.app",
 ]
 
 app.add_middleware(

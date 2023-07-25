@@ -48,7 +48,7 @@ def map(param: List[int]):
     # out_path = 'out.png' # 出力ファイル
 
     image_folder = "images"
-    three_minutes_ago = time.time() - 3 * 60
+    three_minutes_ago = time.time() - 30
     for filename in os.listdir(image_folder):
         file_path = os.path.join(image_folder, filename)
         if os.path.isfile(file_path):

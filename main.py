@@ -6,6 +6,8 @@ from typing import List
 import os
 import urllib.request
 import pandas as pd
+import uuid
+import time
 
 os.makedirs(".fonts", exist_ok = True)
 
@@ -35,7 +37,28 @@ def map(param: List[int]):
     Image.open('map_master.png').convert('RGB').save('map_master.jpeg')
     base_path = 'map_master.jpeg' # ベース画像
     logo_path = 'pin2.png' # 重ねる透過画像
-    out_path = 'out.png' # 出力ファイル
+    unique_id = str(uuid.uuid1())
+    image_dir = "images/"
+    if not os.path.exists(image_dir):
+        os.makedirs(image_dir)
+    out_path = os.path.join(image_dir, f"{unique_id}.png")
+    print(out_path)
+    # out_path = 'out.png' # 出力ファイル
+
+    image_folder = "images"
+    three_minutes_ago = time.time() - 3 * 60
+    for filename in os.listdir(image_folder):
+        file_path = os.path.join(image_folder, filename)
+        if os.path.isfile(file_path):
+            # 画像のタイムスタンプを取得
+            file_timestamp = os.path.getctime(file_path)
+
+            # 3分前よりも古い画像を削除
+            if file_timestamp < three_minutes_ago:
+                os.remove(file_path)
+                print(f"Deleted: {file_path}")
+
+
 
     base = Image.open(base_path)
     logo = Image.open(logo_path)
@@ -91,8 +114,11 @@ def map(param: List[int]):
         draw.text((0, 0), item2, 'black', font=font)
         base.paste(im, (x+50, y+110))"""
             
-    
-    return FileResponse(out_path, media_type="image/png")
+    # with open(out_path, "wb") as f:
+    #     f.write(b"Generated Image Data")
+
+    response =  FileResponse(out_path, media_type = "image/png")
+    return response
 
 @app.get("/image/white")
 def whitemap():

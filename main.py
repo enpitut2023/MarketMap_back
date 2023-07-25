@@ -36,6 +36,8 @@ app.add_middleware(
 def map(param: List[int]):
     Image.open('map_master.png').convert('RGB').save('map_master.jpeg')
     base_path = 'map_master.jpeg' # ベース画像
+    if(len(param) == 0):
+        FileResponse(base_path, media_type = "image/png")
     logo_path = 'pin2.png' # 重ねる透過画像
     unique_id = str(uuid.uuid1())
     image_dir = "images/"
@@ -97,7 +99,6 @@ def map(param: List[int]):
             draw.text((0, 0), caption, 'black', font=font)
             base.paste(im, (x, y+25))
             base.save(out_path)
-<<<<<<< Updated upstream
         """im = Image.new("RGB", (60, 30), (255, 255, 255))
         draw = ImageDraw.Draw(im)
         item2 = item["商品名"]
@@ -109,10 +110,6 @@ def map(param: List[int]):
 
     response =  FileResponse(out_path, media_type = "image/png")
     return response
-=======
-    
-    return FileResponse(out_path, media_type="image/png")
->>>>>>> Stashed changes
 
 @app.get("/image/white")
 def whitemap():
